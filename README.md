@@ -4,6 +4,83 @@ This is an EWM (Extended Warehouse Management) template-related GitHub Copilot C
 
 ---
 
+## Merging the Agent to the Default Branch
+
+GitHub Copilot Custom Agents are **only active and discoverable when the agent definition file is present on the repository's default branch** (typically `main`). If the file exists only on a feature branch, the agent will not be available to any users. Follow the steps below to merge the agent to `main`.
+
+---
+
+### Why This Is Required
+
+The GitHub Copilot platform scans the **default branch** of a repository to discover custom agent definitions stored in `.github/agents/`. Until the file `.github/agents/my-agent.agent.md` is merged into `main`, the EWM Pro agent will not appear in Copilot Chat for any user working in this repository.
+
+---
+
+### Step 1 – Confirm the Agent File Is on a Branch
+
+Before opening a Pull Request, verify that the agent definition file exists on your feature branch:
+
+1. On GitHub, navigate to this repository
+2. Use the branch selector dropdown (top-left of the file list) to switch to the branch that contains the agent file (e.g., `feature/add-ewm-agent`)
+3. Confirm that `.github/agents/my-agent.agent.md` is present
+
+---
+
+### Step 2 – Open a Pull Request
+
+1. Go to the repository on GitHub
+2. Click the **Pull requests** tab
+3. Click **New pull request**
+4. Set the **base** branch to `main` (the default branch)
+5. Set the **compare** branch to the branch containing the agent file (e.g., `feature/add-ewm-agent`)
+6. Click **Create pull request**
+7. Add a clear title and description, for example:
+   - **Title:** `Add EWM Pro Copilot agent configuration`
+   - **Description:** `Adds the GitHub Copilot Custom Agent definition for EWM Pro to the default branch so it is available to all repository users.`
+8. Click **Create pull request** to submit it
+
+> **Tip:** If GitHub shows a banner saying *"This branch has recent pushes"*, you can click **Compare & pull request** directly to skip steps 2–5.
+
+---
+
+### Step 3 – Review and Merge the Pull Request
+
+1. Request reviews from relevant team members if required by your repository's branch protection rules
+2. Ensure all required status checks pass (CI workflows, if any)
+3. Once approved, click **Merge pull request**
+4. Choose a merge strategy:
+   - **Create a merge commit** – preserves full history (recommended)
+   - **Squash and merge** – combines all commits into one clean commit
+   - **Rebase and merge** – replays commits on top of `main`
+5. Click **Confirm merge**
+6. Optionally click **Delete branch** to clean up the feature branch after merging
+
+---
+
+### Step 4 – Verify the Agent Is Active
+
+After merging, confirm the agent is available:
+
+1. Navigate to the repository on GitHub and switch to the `main` branch
+2. Verify that `.github/agents/my-agent.agent.md` is present in the file tree
+3. Open **GitHub Copilot Chat** (in the browser at [github.com](https://github.com) or in your IDE)
+4. Type `@EWM-Pro` — the agent should appear as an autocomplete suggestion
+5. Send a test message, for example: `@EWM-Pro What EWM processes do you support?`
+
+---
+
+### Troubleshooting Merge Issues
+
+| Issue | Solution |
+|---|---|
+| **No "Merge pull request" button** | Branch protection rules may require approvals — ask a repository admin or a designated reviewer to approve the PR |
+| **Merge conflicts** | Pull the latest `main` into your feature branch locally (`git fetch origin && git merge origin/main`), resolve conflicts, then push |
+| **Agent still not appearing after merge** | Wait a few minutes for GitHub to re-index the repository; then refresh Copilot Chat |
+| **Required status checks failing** | Fix any failing CI checks on the feature branch before merging |
+| **No write access to `main`** | Ask a repository administrator to merge the PR or grant you the appropriate permissions |
+
+---
+
 ## How to Use This Agent in Eclipse
 
 The EWM agent is a **GitHub Copilot Custom Agent** available directly in your Eclipse IDE via the GitHub Copilot Chat panel. Follow the steps below to set it up and start using it.
